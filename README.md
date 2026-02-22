@@ -1,20 +1,50 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# GreatRichard Crazy Eights - Deployment Guide
 
-# Run and deploy your AI Studio app
+This project is a high-performance, responsive card game built with React, Vite, and Tailwind CSS.
 
-This contains everything you need to run your app locally.
+## 🚀 How to Deploy to GitHub & Vercel
 
-View your app in AI Studio: https://ai.studio/apps/fa56642c-77a4-4da4-acb9-bfbe1e44858f
+As an AI agent, I cannot directly access your GitHub account to push code. Please follow these steps to sync and deploy:
 
-## Run Locally
+### 1. Sync to GitHub
 
-**Prerequisites:**  Node.js
+1.  **Create a new repository** on [GitHub](https://github.com/new).
+2.  **Initialize Git** in your local project folder (if not already done):
+    ```bash
+    git init
+    git add .
+    git commit -m "Initial commit: GreatRichard Crazy Eights"
+    ```
+3.  **Link to GitHub and Push**:
+    ```bash
+    git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+    git branch -M main
+    git push -u origin main
+    ```
 
+### 2. Deploy to Vercel
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1.  Go to [Vercel](https://vercel.com/new).
+2.  **Import your GitHub repository**.
+3.  **Configure Project**:
+    *   **Framework Preset**: Vite (should be auto-detected).
+    *   **Build Command**: `npm run build`
+    *   **Output Directory**: `dist`
+4.  **Environment Variables** (Optional):
+    *   If you plan to use Gemini AI features, add `GEMINI_API_KEY` to the Environment Variables section in Vercel settings.
+5.  Click **Deploy**.
+
+## 🛠 Project Structure
+
+*   `src/App.tsx`: Main game logic and UI.
+*   `src/components/`: Reusable UI components (Card, SuitSelector).
+*   `src/constants.ts`: Game constants and utility functions.
+*   `src/types.ts`: TypeScript definitions.
+*   `vercel.json`: Configuration for Vercel to handle Single Page Application (SPA) routing.
+
+## 🃏 Game Features
+
+*   **Fancy Cover**: Cinematic entry screen with floating animations.
+*   **Interactive Tutorial**: Guided first round for new players.
+*   **Responsive Design**: Optimized for both mobile and desktop.
+*   **Smart AI**: A challenging opponent with strategic play.
