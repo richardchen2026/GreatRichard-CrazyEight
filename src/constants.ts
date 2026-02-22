@@ -42,10 +42,14 @@ export const getSuitSymbol = (suit: Suit): string => {
 export const getSuitColor = (suit: Suit): string => {
   switch (suit) {
     case Suit.HEARTS:
+      return 'text-rose-500';
     case Suit.DIAMONDS:
-      return 'text-red-500';
+      return 'text-amber-500';
     case Suit.CLUBS:
+      return 'text-slate-800';
     case Suit.SPADES:
+      return 'text-indigo-600';
+    default:
       return 'text-slate-900';
   }
 };

@@ -202,7 +202,18 @@ export default function App() {
   }, [gameState.currentTurn, gameState.status]);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-emerald-500/30 overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500/30 overflow-hidden flex flex-col relative">
+      {/* Global Background Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img 
+          src="https://picsum.photos/seed/poker/1920/1080?blur=10" 
+          className="w-full h-full object-cover opacity-20"
+          alt="background"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/40 to-slate-950" />
+      </div>
+
       {/* Overlays: Cover & Instructions */}
       <AnimatePresence>
         {gameState.status === 'COVER' && (
@@ -354,7 +365,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Header */}
-      <header className="p-4 flex justify-between items-center border-b border-white/5 bg-slate-900/50 backdrop-blur-md z-10">
+      <header className="p-4 flex justify-between items-center border-b border-white/10 bg-slate-950/80 backdrop-blur-xl z-10">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
             <Layers className="text-white w-6 h-6" />
@@ -381,7 +392,7 @@ export default function App() {
       </header>
 
       {/* Main Game Area */}
-      <main className="flex-1 relative flex flex-col items-center justify-between p-4 sm:p-8">
+      <main className="flex-1 relative flex flex-col items-center justify-between p-4 sm:p-8 z-10">
         {/* Tutorial Overlay */}
         <AnimatePresence>
           {gameState.tutorialStep === 1 && (
@@ -523,7 +534,7 @@ export default function App() {
       </main>
 
       {/* Status Bar */}
-      <footer className="p-4 bg-slate-800/50 border-t border-white/5 flex justify-center items-center">
+      <footer className="p-4 bg-slate-950/80 backdrop-blur-xl border-t border-white/10 flex justify-center items-center z-10">
         <div className="flex items-center gap-4">
           <div className={`
             px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2
@@ -545,29 +556,51 @@ export default function App() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-md p-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/95 backdrop-blur-xl p-4"
           >
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+              <img 
+                src={gameState.winner === 'PLAYER' 
+                  ? "https://picsum.photos/seed/victory/1920/1080?blur=5" 
+                  : "https://picsum.photos/seed/defeat/1920/1080?blur=5"} 
+                className="w-full h-full object-cover"
+                alt="result background"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              className="bg-white p-10 rounded-[2.5rem] shadow-2xl text-center max-w-md w-full"
+              className="bg-slate-900 border border-white/10 p-12 rounded-[3.5rem] shadow-2xl text-center max-w-md w-full relative z-10"
             >
-              <div className="w-20 h-20 bg-emerald-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                <Trophy className={`w-10 h-10 ${gameState.winner === 'PLAYER' ? 'text-emerald-600' : 'text-slate-400'}`} />
-              </div>
-              <h2 className="text-4xl font-black text-slate-900 mb-2">
-                {gameState.winner === 'PLAYER' ? 'VICTORY!' : 'DEFEAT'}
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                  rotate: gameState.winner === 'PLAYER' ? [0, 10, -10, 0] : 0
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className={`w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 ${gameState.winner === 'PLAYER' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}`}
+              >
+                <Trophy className="w-12 h-12" />
+              </motion.div>
+              
+              <h2 className="text-5xl font-black text-white mb-4 tracking-tighter">
+                {gameState.winner === 'PLAYER' ? 'VICTORY!' : 'GAME OVER'}
               </h2>
-              <p className="text-slate-500 mb-8 font-medium">
+              
+              <p className="text-slate-400 mb-10 text-lg font-medium leading-relaxed">
                 {gameState.winner === 'PLAYER' 
-                  ? 'You cleared your hand and won the game!' 
-                  : 'The AI was faster this time. Want a rematch?'}
+                  ? 'Incredible play! You dominated the table and cleared your hand like a pro.' 
+                  : 'The AI got lucky this time. Every defeat is just a setup for a legendary comeback!'}
               </p>
+              
               <button
                 onClick={startNewGame}
-                className="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-xl"
+                className={`w-full py-5 rounded-2xl font-black text-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-2xl flex items-center justify-center gap-3 ${gameState.winner === 'PLAYER' ? 'bg-emerald-500 hover:bg-emerald-400 text-white' : 'bg-white text-slate-950 hover:bg-slate-100'}`}
               >
-                Play Again
+                <RotateCcw className="w-6 h-6" />
+                REMATCH NOW
               </button>
             </motion.div>
           </motion.div>
